@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  hangfire-console-app:
+    build:
+      context: ./HangfireConsoleApp
+    networks:
+      - hangfire-net
+
+  hangfire-dashboard:
+    build:
+      context: ./HangfireDashboard
+    ports:
+      - "8080:80"  # Maps port 80 in the container to port 8080 on your host
+    networks:
+      - hangfire-net
+    volumes:
+      - hangfire-keys:/keys  # Add this line to mount the keys volume
+
+networks:
+  hangfire-net:
+    external: false
+
+volumes:
+  hangfire-keys:
+    driver: local
